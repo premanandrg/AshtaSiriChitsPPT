@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>System Architecture</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&amp;family=Roboto:wght@300;400;500;700&amp;display=swap"
+        rel="stylesheet" />
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100vw;
+            /* MOBILE FIX: Allow height to grow and enable scrolling */
+            min-height: 100vh;
+            font-family: 'Roboto', sans-serif;
+            background-color: #f0f4f8;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            /* Better for scrolling content */
+            overflow-x: hidden;
+            overflow-y: auto;
+        }
+
+        @media (min-width: 1024px) {
+            body {
+                height: 100vh;
+                align-items: center;
+                overflow: hidden;
+                /* Preserve laptop "slide" feel */
+            }
+        }
+
+        .slide-container {
+            width: 100vw;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background-color: #ffffff;
+            position: relative;
+        }
+
+        @media (min-width: 1024px) {
+            .slide-container {
+                height: 100vh;
+            }
+        }
+
+        .header {
+            height: 80px;
+            background-color: #1B3A57;
+            padding: 0 4vw;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+            z-index: 20;
+            flex-shrink: 0;
+        }
+
+        @media (min-width: 1024px) {
+            .header {
+                height: 100px;
+                padding: 0 60px;
+            }
+        }
+
+        .header-accent {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 71%;
+            height: 5px;
+            background-color: #FF8C00;
+            animation: slideInLeft 1s ease-out forwards;
+        }
+
+        .page-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 20px;
+            font-weight: 700;
+            color: white;
+        }
+
+        @media (min-width: 1024px) {
+            .page-title {
+                font-size: 36px;
+            }
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: white;
+            opacity: 0.9;
+        }
+
+        /* Diagram Area */
+        .diagram-container {
+            flex: 1;
+            padding: 40px 20px;
+            /* More padding for mobile breathing room */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            position: relative;
+            background-color: #ffffff;
+            gap: 10px;
+        }
+
+        @media (min-width: 1024px) {
+            .diagram-container {
+                padding: 40px;
+                justify-content: center;
+                gap: 0;
+            }
+        }
+
+        .bg-grid {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: radial-gradient(#cbd5e1 1px, transparent 1px);
+            background-size: 20px 20px;
+            opacity: 0.4;
+            z-index: 0;
+        }
+
+        /* Architecture Blocks */
+        .arch-level {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            position: relative;
+            z-index: 10;
+            width: 100%;
+        }
+
+        @media (min-width: 1024px) {
+            .arch-level {
+                flex-direction: row;
+                justify-content: center;
+                gap: 40px;
+            }
+        }
+
+        /* Tier Blocks */
+        .admin-block {
+            background-color: #1B3A57;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 8px;
+            width: 100%;
+            max-width: 280px;
+            text-align: center;
+            box-shadow: 0 10px 20px rgba(27, 58, 87, 0.2);
+            position: relative;
+            border-bottom: 4px solid #FF8C00;
+        }
+
+        @media (min-width: 1024px) {
+            .admin-block {
+                margin-bottom: 50px;
+            }
+        }
+
+        /* Cloud Zone */
+        .cloud-zone {
+            background-color: #f0f9ff;
+            border: 2px dashed #bae6fd;
+            border-radius: 20px;
+            padding: 30px 15px;
+            width: 100%;
+            max-width: 900px;
+            position: relative;
+        }
+
+        @media (min-width: 1024px) {
+            .cloud-zone {
+                padding: 40px;
+                margin-bottom: 50px;
+                width: 80%;
+            }
+        }
+
+        .cloud-label {
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #ffffff;
+            color: #0284c7;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 12px;
+            border: 1px solid #bae6fd;
+            display: flex;
+            white-space: nowrap;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .cloud-internal {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+
+        @media (min-width: 1024px) {
+            .cloud-internal {
+                flex-direction: row;
+                justify-content: space-around;
+                gap: 20px;
+            }
+        }
+
+        .component-box {
+            background-color: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 15px;
+            width: 160px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Client Blocks */
+        .client-block {
+            background-color: white;
+            border: 1px solid #cbd5e1;
+            border-radius: 12px;
+            padding: 15px;
+            width: 100%;
+            max-width: 260px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            border-top: 4px solid #059669;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        /* Visual Connectors for Mobile (CSS Lines) */
+        .mobile-connector {
+            width: 2px;
+            height: 25px;
+            background: #cbd5e1;
+            display: block;
+        }
+
+        @media (min-width: 1024px) {
+            .mobile-connector {
+                display: none;
+            }
+        }
+
+        /* Hide complex SVG on mobile */
+        .connector-svg {
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 5;
+        }
+
+        @media (min-width: 1024px) {
+            .connector-svg {
+                display: block;
+            }
+        }
+
+        /* Security Row Responsive */
+        .security-row {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 20px;
+            padding-bottom: 30px;
+            /* Space for scrolling on mobile */
+        }
+
+        .badge {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background-color: #fff;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            color: #475569;
+            border: 1px solid #e2e8f0;
+        }
+
+        /* Animation Keyframes preserved */
+        @keyframes slideInLeft {
+            from {
+                transform: translateX(-100%);
+            }
+
+            to {
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes flow {
+            0% {
+                stroke-dashoffset: 20;
+            }
+
+            100% {
+                stroke-dashoffset: 0;
+            }
+        }
+
+        @keyframes fadeInScale {
+            0% {
+                opacity: 0;
+                transform: scale(0.9) translateY(20px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        @keyframes floating {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-8px);
+            }
+        }
+
+        .anim-reveal {
+            opacity: 0;
+            animation: fadeInScale 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .tier-1 {
+            animation-delay: 0.1s;
+        }
+
+        .tier-2 {
+            animation-delay: 0.3s;
+        }
+
+        .tier-3 {
+            animation-delay: 0.5s;
+        }
+
+        .badge-anim {
+            animation-delay: 0.7s;
+        }
+
+        .float-subtle {
+            animation: floating 4s ease-in-out infinite;
+        }
+
+        .flow-line {
+            stroke: #94a3b8;
+            stroke-width: 2;
+            fill: none;
+            stroke-dasharray: 5;
+            animation: flow 1s linear infinite;
+        }
+
+        .arrow-head {
+            fill: #94a3b8;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="slide-container">
+        <div class="header">
+            <h1 class="page-title">System Architecture</h1>
+            <div class="header-accent"></div>
+            <div class="logo-container">
+                <div style="width: 32px; height: 32px; display: flex; align-items: center;">
+                    <img src="small_logo_trans.png" alt="Logo">
+                </div>
+                <span class="hidden sm:block"
+                    style="font-family: 'Montserrat', sans-serif; color: white; font-weight: 700; font-size: 18px;">Orange
+                    Code <span style="color:#FF8C00">BYTE</span></span>
+            </div>
+        </div>
+
+        <div class="diagram-container">
+            <div class="bg-grid"></div>
+
+            <svg class="connector-svg" viewbox="0 0 1280 620">
+                <path class="flow-line" d="M 640 100 L 640 160"></path>
+                <polygon class="arrow-head" points="640,165 635,155 645,155"></polygon>
+                <path class="flow-line" d="M 402 240 L 550 240"></path>
+                <path class="flow-line" d="M 720 240 L 880 240"></path>
+                <path class="flow-line" d="M 450 480 L 450 420 L 350 420 L 350 300"></path>
+                <polygon class="arrow-head" points="330,305 300,305 305,305"></polygon>
+                <path class="flow-line" d="M 830 490 L 830 420 L 350 420"></path>
+            </svg>
+
+            <div class="arch-level anim-reveal tier-1">
+                <div class="admin-block">
+                    <div
+                        style="font-size: 16px; font-weight: 700; margin-bottom: 5px; font-family: 'Montserrat', sans-serif;">
+                        Administration Web Portal</div>
+                    <div style="font-size: 11px; opacity: 0.8;">RBAC • Dashboard • Reports</div>
+                </div>
+            </div>
+
+            <div class="mobile-connector anim-reveal tier-1"></div>
+            <br><br>
+            <div class="cloud-zone anim-reveal tier-2">
+                <div class="cloud-label"><i class="fas fa-cloud"></i> Secure Cloud Infrastructure</div>
+                <div class="cloud-internal">
+                    <div class="component-box float-subtle" style="border-left: 3px solid #f59e0b;">
+                        <i class="fas fa-network-wired text-xl text-yellow-500"></i>
+                        <div>
+                            <div class="font-bold text-sm">API Gateway</div>
+                            <div style="font-size: 10px; color: #64748b;">Load Balancer</div>
+                        </div>
+                    </div>
+
+                    <div class="hidden lg:block"><i class="fas fa-arrow-right text-gray-300"></i></div>
+                    <div class="mobile-connector"></div>
+
+                    <div class="component-box float-subtle"
+                        style="border-left: 3px solid #3b82f6; animation-delay: 0.5s;">
+                        <i class="fas fa-cogs text-xl text-blue-500"></i>
+                        <div>
+                            <div class="font-bold text-sm">App Services</div>
+                            <div style="font-size: 10px; color: #64748b;">Core Logic Engine</div>
+                        </div>
+                    </div>
+
+                    <div class="hidden lg:block"><i class="fas fa-arrow-right text-gray-300"></i></div>
+                    <div class="mobile-connector"></div>
+
+                    <div class="component-box float-subtle"
+                        style="border-left: 3px solid #ef4444; animation-delay: 1s;">
+                        <i class="fas fa-database text-xl text-red-500"></i>
+                        <div>
+                            <div class="font-bold text-sm">Data Cluster</div>
+                            <div style="font-size: 10px; color: #64748b;">SQL + Storage</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mobile-connector anim-reveal tier-2"></div>
+            <br><br><br><br>
+            <div class="arch-level anim-reveal tier-3">
+                <div class="client-block">
+                    <i class="fas fa-mobile-android text-2xl text-orange-500"></i>
+                    <div class="client-info">
+                        <div style="font-weight: 700; color: #1e293b;">Collector App</div>
+                        <div style="font-size: 11px; color: #64748b;">Android (Offline Sync)</div>
+                    </div>
+                </div>
+                <div class="client-block" style="border-top-color: #2563eb;">
+                    <i class="fas fa-laptop text-2xl text-blue-600"></i>
+                    <div class="client-info">
+                        <div style="font-weight: 700; color: #1e293b;">Member Portal</div>
+                        <div style="font-size: 11px; color: #64748b;">Mobile Web</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="security-row anim-reveal badge-anim">
+                <div class="badge"><i class="fas fa-lock text-blue-500"></i> TLS</div>
+                <div class="badge"><i class="fas fa-shield-alt text-green-500"></i> WAF</div>
+                <div class="badge"><i class="fas fa-history text-orange-500"></i> Backup</div>
+                <div class="badge"><i class="fas fa-eye text-red-500"></i> Monitoring</div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

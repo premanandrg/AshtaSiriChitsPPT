@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Collector System Features</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Roboto:wght@300;400;500;700&display=swap"
+        rel="stylesheet" />
+    <style>
+        /* --- Presentation Core --- */
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            /* Lock screen for presentation */
+            font-family: 'Roboto', sans-serif;
+            background-color: #000;
+            /* Professional backdrop */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .slide-container {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background-color: #ffffff;
+            position: relative;
+        }
+
+        /* --- Animations --- */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInLeft {
+            from {
+                transform: translateX(-100%);
+            }
+
+            to {
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes floatingMobile {
+            0% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-2vh);
+            }
+
+            100% {
+                transform: translateY(0px);
+            }
+        }
+
+        .anim-header {
+            animation: fadeInUp 0.6s ease-out forwards;
+        }
+
+        .anim-item {
+            opacity: 0;
+            animation: fadeInUp 0.5s ease-out forwards;
+        }
+
+        .anim-mockup {
+            animation: floatingMobile 4s ease-in-out infinite;
+        }
+
+        /* Header Scaling */
+        .header {
+            height: 12vh;
+            min-height: 80px;
+            background-color: #1B3A57;
+            padding: 0 5vw;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+            z-index: 20;
+            flex-shrink: 0;
+        }
+
+        .header-accent {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 57%;
+            height: 6px;
+            background-color: #FF8C00;
+            animation: slideInLeft 1s ease-out forwards;
+        }
+
+        .page-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: clamp(24px, 4.5vh, 42px);
+            font-weight: 700;
+            color: white;
+        }
+
+        /* Main Content Scaling */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: row;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Left Column Scaling */
+        .left-column {
+            width: 60%;
+            padding: 4vh 5vw;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            background-color: #ffffff;
+            z-index: 10;
+        }
+
+        .section-intro {
+            margin-bottom: 3vh;
+        }
+
+        .intro-heading {
+            font-family: 'Montserrat', sans-serif;
+            font-size: clamp(20px, 3vh, 32px);
+            font-weight: 700;
+            color: #1B3A57;
+            margin-bottom: 1vh;
+        }
+
+        .intro-text {
+            color: #6b7280;
+            font-size: clamp(14px, 1.8vh, 18px);
+            line-height: 1.5;
+            border-left: 5px solid #FF8C00;
+            padding-left: 20px;
+        }
+
+        /* Feature List Scaling */
+        .feature-list {
+            display: flex;
+            flex-direction: column;
+            gap: 3vh;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1.5vw;
+        }
+
+        .icon-wrapper {
+            width: 6vh;
+            height: 6vh;
+            min-width: 50px;
+            min-height: 50px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-size: 2.5vh;
+        }
+
+        .item-1 .icon-wrapper {
+            background-color: #fff7ed;
+            color: #ea580c;
+            border: 1px solid #ffedd5;
+        }
+
+        .item-2 .icon-wrapper {
+            background-color: #eff6ff;
+            color: #2563eb;
+            border: 1px solid #dbeafe;
+        }
+
+        .item-3 .icon-wrapper {
+            background-color: #f0fdf4;
+            color: #16a34a;
+            border: 1px solid #dcfce7;
+        }
+
+        .item-4 .icon-wrapper {
+            background-color: #fef2f2;
+            color: #dc2626;
+            border: 1px solid #fee2e2;
+        }
+
+        .item-5 .icon-wrapper {
+            background-color: #f5f3ff;
+            color: #7c3aed;
+            border: 1px solid #ede9fe;
+        }
+
+        .feature-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: clamp(16px, 2.2vh, 22px);
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 0.5vh;
+        }
+
+        .feature-desc {
+            font-size: clamp(12px, 1.6vh, 16px);
+            color: #6b7280;
+            line-height: 1.4;
+            margin: 0;
+        }
+
+        /* Right Column Scaling */
+        .right-column {
+            width: 40%;
+            background-color: #f8fafc;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-left: 1px solid #e2e8f0;
+            overflow: hidden;
+        }
+
+        /* Mobile Mockup Proportional Scaling */
+        .ui-mockup-container {
+            width: 20vw;
+            height: 65vh;
+            position: relative;
+            z-index: 10;
+        }
+
+        .ui-card {
+            position: absolute;
+            background-color: white;
+            border-radius: 2.5vh;
+            box-shadow: 0 25px 60px rgba(27, 58, 87, 0.2);
+            border: 0.8vh solid #1B3A57;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-main {
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 20;
+        }
+
+        .card-header {
+            height: 7vh;
+            background-color: #1B3A57;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 2vh;
+            color: white;
+        }
+
+        .card-body {
+            padding: 2vh;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 2vh;
+            background-color: #f8fafc;
+        }
+
+        .mobile-stat-card {
+            background-color: white;
+            border-radius: 12px;
+            padding: 1.5vh;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .collection-list-item {
+            background-color: white;
+            border-radius: 12px;
+            padding: 1.5vh;
+            display: flex;
+            align-items: center;
+            gap: 1vw;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.03);
+            border-left: 4px solid transparent;
+        }
+
+        .collection-list-item.active {
+            border-left-color: #FF8C00;
+        }
+
+        .avatar {
+            width: 5vh;
+            height: 5vh;
+            border-radius: 50%;
+            background-color: #e2e8f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5vh;
+            color: #64748b;
+            font-weight: bold;
+        }
+
+        .item-name {
+            font-size: 1.8vh;
+            font-weight: 600;
+            color: #334155;
+            margin: 0;
+        }
+
+        .item-sub {
+            font-size: 1.4vh;
+            color: #94a3b8;
+            margin: 2px 0 0 0;
+        }
+
+        .card-float {
+            width: 14vw;
+            height: auto;
+            bottom: 5vh;
+            right: -5vw;
+            z-index: 30;
+            background-color: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 2vh;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+        }
+
+        .accent-circle {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.1;
+        }
+
+        .circle-1 {
+            width: 500px;
+            height: 500px;
+            background-color: #1B3A57;
+            top: -150px;
+            right: -150px;
+        }
+
+        .circle-2 {
+            width: 200px;
+            height: 200px;
+            background-color: #FF8C00;
+            bottom: 50px;
+            left: -50px;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: white;
+        }
+
+        .bg-grid {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: linear-gradient(#e2e8f0 1px, transparent 1px), linear-gradient(90deg, #e2e8f0 1px, transparent 1px);
+            background-size: 50px 50px;
+            opacity: 0.3;
+        }
+
+        /* Mobile Adjustments */
+        @media (max-width: 1023px) {
+
+            body,
+            html {
+                height: auto;
+                overflow: auto;
+            }
+
+            .slide-container {
+                height: auto;
+            }
+
+            .main-content {
+                flex-direction: column;
+            }
+
+            .left-column,
+            .right-column {
+                width: 100%;
+                height: auto;
+                padding: 40px 20px;
+            }
+
+            .ui-mockup-container {
+                width: 280px;
+                height: 480px;
+            }
+
+            .card-float {
+                width: 180px;
+                right: 0;
+                bottom: 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="slide-container">
+        <div class="header anim-header">
+            <h1 class="page-title">Collector System</h1>
+            <div class="header-accent"></div>
+            <div class="logo-container">
+                <img src="small_logo_trans.png" alt="Logo" class="h-10 w-auto">
+                <span style="font-family: 'Montserrat'; color: white; font-weight: 700; font-size: 18px;"
+                    class="hidden md:inline">
+                    Orange Code <span style="color:#FF8C00">BYTE</span>
+                </span>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="left-column">
+                <div class="section-intro anim-header" style="animation-delay: 0.2s;">
+                    <h2 class="intro-heading">Field Operations</h2>
+                    <p class="intro-text">A robust mobile solution for agents to manage collections efficiently,
+                        providing 100% uptime even in offline environments.</p>
+                </div>
+
+                <div class="feature-list">
+                    <div class="feature-item item-1 anim-item" style="animation-delay: 0.3s;">
+                        <div class="icon-wrapper"><i class="fas fa-hand-holding-usd"></i></div>
+                        <div class="feature-text">
+                            <h3 class="feature-title">Quick Entry</h3>
+                            <p class="feature-desc">Simplified interface designed for rapid payment recording and
+                                instant adjustments.</p>
+                        </div>
+                    </div>
+                    <div class="feature-item item-2 anim-item" style="animation-delay: 0.4s;">
+                        <div class="icon-wrapper"><i class="fas fa-map-marked-alt"></i></div>
+                        <div class="feature-text">
+                            <h3 class="feature-title">Member Tracking</h3>
+                            <p class="feature-desc">Smart route planning and geofencing to ensure zero missed
+                                collections.</p>
+                        </div>
+                    </div>
+                    <div class="feature-item item-3 anim-item" style="animation-delay: 0.5s;">
+                        <div class="icon-wrapper"><i class="fas fa-file-invoice"></i></div>
+                        <div class="feature-text">
+                            <h3 class="feature-title">Digital Receipts</h3>
+                            <p class="feature-desc">Share branded e-receipts instantly via SMS, Email, or WhatsApp.</p>
+                        </div>
+                    </div>
+                    <div class="feature-item item-4 anim-item" style="animation-delay: 0.6s;">
+                        <div class="icon-wrapper"><i class="fas fa-wifi"></i></div>
+                        <div class="feature-text">
+                            <h3 class="feature-title">Offline Mode</h3>
+                            <p class="feature-desc">Automatic secure data synchronization when network connectivity
+                                returns.</p>
+                        </div>
+                    </div>
+                    <div class="feature-item item-5 anim-item" style="animation-delay: 0.7s;">
+                        <div class="icon-wrapper"><i class="fas fa-clipboard-list"></i></div>
+                        <div class="feature-text">
+                            <h3 class="feature-title">Handover Reports</h3>
+                            <p class="feature-desc">Automated summaries for accurate daily cash branch reconciliation.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="right-column">
+                <div class="bg-grid"></div>
+                <div class="accent-circle circle-1"></div>
+                <div class="accent-circle circle-2"></div>
+
+                <div class="ui-mockup-container anim-mockup">
+                    <div class="ui-card card-main">
+                        <div class="card-header">
+                            <i class="fas fa-bars"></i>
+                            <span style="font-size: 1.8vh; font-weight: 600;">My Collections</span>
+                            <i class="fas fa-search"></i>
+                        </div>
+                        <div class="card-body">
+                            <div class="mobile-stat-card">
+                                <div>
+                                    <p style="font-size: 1.4vh; color: #64748b; margin: 0;">Target</p>
+                                    <p style="font-size: 2vh; font-weight: 700; color: #1B3A57; margin: 0;">₹ 1,25,000
+                                    </p>
+                                </div>
+                                <div style="text-align: right;">
+                                    <p style="font-size: 1.4vh; color: #64748b; margin: 0;">Collected</p>
+                                    <p style="font-size: 2vh; font-weight: 700; color: #22c55e; margin: 0;">₹ 45,000</p>
+                                </div>
+                            </div>
+                            <div class="collection-list-item active">
+                                <div class="avatar">VR</div>
+                                <div class="item-details">
+                                    <p class="item-name">Venkat Rao</p>
+                                    <p class="item-sub">Grp: A-101 • Tkt: 05</p>
+                                </div>
+                                <div class="action-btn"><i class="fas fa-chevron-right text-orange-400"></i></div>
+                            </div>
+                            <div class="collection-list-item">
+                                <div class="avatar">SK</div>
+                                <div class="item-details">
+                                    <p class="item-name">Suresh Kumar</p>
+                                    <p class="item-sub">Grp: B-205 • Tkt: 12</p>
+                                </div>
+                                <div class="action-btn"><i class="fas fa-chevron-right text-orange-400"></i></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ui-card card-float">
+                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 1vh;">
+                            <div
+                                style="width: 2.5vh; height: 2.5vh; background-color: #22c55e; border-radius: 50%; display: flex; justify-content: center; align-items: center; color: white; font-size: 1.2vh;">
+                                <i class="fas fa-check"></i>
+                            </div>
+                            <span style="font-weight: 700; color: #1B3A57; font-size: 1.6vh;">Success</span>
+                        </div>
+                        <p style="font-size: 1.4vh; color: #64748b; margin: 0 0 1vh 0;">Receipt #894 generated for
+                            <strong>₹ 15,000</strong></p>
+                        
+
+                          <div style="display: flex; gap: 5px;">
+                            <div
+                                style="padding: 4px 8px; background-color: #f0f9ff; border-radius: 4px; color: #0284c7; font-size: 9px; font-weight: 600;">
+                                <i class="fab fa-whatsapp"></i> Share
+                            </div>
+                            <div
+                                style="padding: 4px 8px; background-color: #f0f9ff; border-radius: 4px; color: #0284c7; font-size: 9px; font-weight: 600;">
+                                <i class="fas fa-print"></i> Print
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Enterprise Chit Fund Management Software</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Roboto:wght@300;400;500&display=swap"
+        rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+
+
+    <style>
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            /* Prevent scrolling on laptop */
+            font-family: 'Roboto', sans-serif;
+            background-color: #000;
+            /* Backdrop for any gaps */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .slide-container {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            position: relative;
+            background-color: #ffffff;
+            box-shadow: 0 40px 100px rgba(0, 0, 0, 0.2);
+        }
+
+        /* --- Panel Logic --- */
+        .left-panel {
+            width: 45%;
+            height: 100%;
+            background-color: #1B3A57;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 5%;
+            /* Relative padding */
+            z-index: 10;
+            overflow: hidden;
+        }
+
+        .right-panel {
+            width: 55%;
+            height: 100%;
+            background-color: #ffffff;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 5%;
+            /* Relative padding */
+            z-index: 5;
+        }
+
+        /* --- Mobile Responsiveness (Vertical Stack for phones) --- */
+        @media (max-width: 768px) {
+            body {
+                overflow-y: auto;
+                align-items: flex-start;
+            }
+
+            .slide-container {
+                flex-direction: column;
+                height: auto;
+                aspect-ratio: auto;
+            }
+
+            .left-panel,
+            .right-panel {
+                width: 100%;
+                height: auto;
+                padding: 40px 20px;
+            }
+
+            .logo-placeholder,
+            .badge-container,
+            .orange-byte-branding {
+                position: relative !important;
+                top: auto !important;
+                left: auto !important;
+                right: auto !important;
+                bottom: auto !important;
+                margin-bottom: 20px;
+            }
+
+            .title-text {
+                font-size: 2rem;
+            }
+
+            .illustration-container {
+                transform: scale(0.7);
+                height: 400px;
+            }
+
+            .orange-byte-branding {
+                text-align: left;
+            }
+
+            .accent-shape {
+                display: none;
+            }
+        }
+
+        /* --- ORIGINAL STYLES PRESERVED --- */
+        .left-panel::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background-image: linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+            background-size: 50px 50px;
+            mask-image: radial-gradient(circle at center, black, transparent 80%);
+            z-index: -1;
+        }
+
+        .right-panel::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background-image: radial-gradient(#cbd5e1 0.8px, transparent 0.8px);
+            background-size: 24px 24px;
+            opacity: 0.5;
+            z-index: -1;
+        }
+
+        .right-panel::after {
+            content: "";
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 70% 30%, rgba(27, 58, 87, 0.05) 0%, transparent 60%);
+            z-index: -1;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        @keyframes pulseGlow {
+            0% {
+                box-shadow: 0 0 0 0 rgba(255, 140, 0, 0.4);
+            }
+
+            70% {
+                box-shadow: 0 0 0 15px rgba(255, 140, 0, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(255, 140, 0, 0);
+            }
+        }
+
+        .animate-in {
+            animation: fadeInUp 0.8s ease-out forwards;
+            opacity: 0;
+        }
+
+        .delay-1 {
+            animation-delay: 0.2s;
+        }
+
+        .delay-2 {
+            animation-delay: 0.4s;
+        }
+
+        .delay-3 {
+            animation-delay: 0.6s;
+        }
+
+        .floating-node {
+            animation: float 4s ease-in-out infinite;
+        }
+
+        .glow-pulse {
+            animation: pulseGlow 2s infinite;
+        }
+
+        .logo-placeholder {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 40px;
+            position: absolute;
+            top: 60px;
+            left: 60px;
+        }
+
+        .logo-image {
+            width: 40px;
+            height: auto;
+        }
+
+        .title-text {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 800;
+            font-size: clamp(24px, 4vw, 48px);
+            /* Responsive font size */
+            line-height: 1.1;
+            color: #ffffff;
+            margin-bottom: 25px;
+        }
+
+        .subtitle-text {
+            font-size: clamp(14px, 1.5vw, 18px);
+            color: #d1d5db;
+            margin-bottom: 50px;
+            font-weight: 300;
+            border-left: 4px solid #FF8C00;
+            padding-left: 20px;
+            line-height: 1.5;
+        }
+
+        .orange-byte-branding {
+            position: absolute;
+            bottom: 40px;
+            right: 60px;
+            text-align: right;
+            z-index: 20;
+        }
+
+        .presenter-name {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 20px;
+            font-weight: 700;
+            color: #1B3A57;
+        }
+
+        .illustration-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .accent-shape {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 80px;
+            height: 100%;
+            background-color: #FF8C00;
+            transform: skewX(-12deg) translateX(50%);
+            z-index: 1;
+        }
+
+        .hex-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%231B3A57' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            z-index: 0;
+        }
+
+        .badge {
+            background-color: rgba(255, 140, 0, 0.1);
+            color: #FF8C00;
+            border: 1px solid rgba(255, 140, 0, 0.4);
+            padding: 6px 14px;
+            border-radius: 50px;
+            font-size: 12px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            text-transform: uppercase;
+        }
+
+        .badge-container {
+            display: flex;
+            gap: 10px;
+            position: absolute;
+            top: 60px;
+            right: 100px;
+            z-index: 20;
+        }
+
+
+        @media print {
+            @page {
+                size: A4 landscape;
+                /* Or 'legal landscape' if you prefer wider slides */
+                margin: 0;
+                /* Removes the URL and Date from the corners */
+            }
+
+            body {
+                -webkit-print-color-adjust: exact !important;
+                /* Forces background colors to show */
+                print-color-adjust: exact !important;
+            }
+
+            .slide-container {
+                width: 100vw;
+                height: 100vh;
+                box-shadow: none;
+                /* Removes shadows which can look blurry in PDF */
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="slide-container">
+        <div class="left-panel">
+            <div class="logo-placeholder animate-in">
+                <img src="small_logo_trans.png" alt="Orange Code Byte" class="logo-image">
+                <span class="logo-tex"
+                    style="font-family: 'Montserrat', sans-serif; color: white; font-weight: 700; font-size: 18px;">Orange
+                    Code <span style="color:#FF8C00">BYTE</span></span>
+            </div>
+
+            <div class="main-content">
+                <p class="uppercase text-xs tracking-widest font-bold mb-3 animate-in delay-1"
+                    style="color: #FF8C00; margin-top: 40px;">Strategic Business Proposal</p>
+                <h1 class="title-text animate-in delay-1">Enterprise Chit Fund<br>Management System</h1>
+                <p class="subtitle-text animate-in delay-2">A secure, cloud-native, and mobile-first ecosystem designed
+                    for high-frequency financial operations.</p>
+
+                <div class="client-section mt-10 animate-in delay-3">
+                    <p class="text-gray-400 text-xs uppercase tracking-widest mb-3">Prepared Exclusively For</p>
+                    <div class="flex items-center gap-4">
+                        <img src="ashtasiri_logo.png" height="50px" width="50px" style="object-fit: contain;">
+                        <div>
+                            <h2 class="text-white text-2xl font-bold font-montserrat m-0">Ashta Siri Chits Pvt Ltd</h2>
+                            <p class="text-blue-300 text-sm mt-1">Operational Excellence Initiative 2026</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="right-panel">
+            <div class="hex-bg"></div>
+            <div class="accent-shape"></div>
+
+            <div class="badge-container animate-in delay-3">
+                <div class="badge"><i class="fas fa-shield-alt"></i> AES-256 Secure</div>
+                <div class="badge"><i class="fas fa-sync"></i> Real-time Sync</div>
+            </div>
+
+            <div class="illustration-container">
+                <div
+                    style="position: relative; width: 500px; height: 500px; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+
+                    <div class="floating-node" style="z-index: 10; margin-bottom: 40px;">
+                        <div
+                            style="background-color: #1B3A57; color: white; padding: 12px 25px; border-radius: 10px; width: 200px; text-align: center; border-bottom: 4px solid #FF8C00; box-shadow: 0 10px 20px rgba(0,0,0,0.1);">
+                            <i class="fas fa-desktop mb-2 text-orange-400"></i>
+                            <div
+                                style="font-size: 13px; font-weight: 700; letter-spacing: 1px; font-family: 'Montserrat';">
+                                ADMIN CONTROL</div>
+                        </div>
+                    </div>
+
+                    <div class="floating-node" style="z-index: 10; margin-bottom: 40px; animation-delay: 0.5s;">
+                        <div
+                            style="background: white; border: 2px solid #e2e8f0; border-radius: 50%; width: 140px; height: 140px; display: flex; flex-direction: column; justify-content: center; align-items: center; box-shadow: 0 15px 40px rgba(27, 58, 87, 0.1);">
+                            <i class="fas fa-cloud text-blue-500" style="font-size: 32px; margin-bottom: 8px;"></i>
+                            <div style="font-size: 11px; font-weight: 800; color: #1B3A57; text-align: center;">CENTRAL
+                                CORE</div>
+                        </div>
+                    </div>
+
+                    <div style="display: flex; gap: 20px; z-index: 10;">
+                        <div class="floating-node"
+                            style="animation-delay: 1s; background: white; border-radius: 12px; padding: 15px; width: 180px; display: flex; align-items: center; gap: 12px; box-shadow: 0 8px 25px rgba(0,0,0,0.05); border-left: 4px solid #FF8C00;">
+                            <div style="background: #fff7ed; padding: 8px; border-radius: 8px;"><i
+                                    class="fas fa-route text-orange-500"></i></div>
+                            <div>
+                                <div style="font-size: 12px; font-weight: 700; color: #1B3A57;">Collector App</div>
+                            </div>
+                        </div>
+
+                        <div class="floating-node"
+                            style="animation-delay: 1.2s; background: white; border-radius: 12px; padding: 15px; width: 180px; display: flex; align-items: center; gap: 12px; box-shadow: 0 8px 25px rgba(0,0,0,0.05); border-left: 4px solid #1B3A57;">
+                            <div style="background: #f0f9ff; padding: 8px; border-radius: 8px;"><i
+                                    class="fas fa-users text-blue-700"></i></div>
+                            <div>
+                                <div style="font-size: 12px; font-weight: 700; color: #1B3A57;">Member App</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <svg viewBox="0 0 500 500"
+                        style="position: absolute; top:0; left:0; width:100%; height:100%; z-index: 1; pointer-events: none;">
+                        <path id="path1" d="M250,110 L250,180" stroke="#cbd5e1" stroke-width="1.5" stroke-dasharray="4"
+                            fill="none" />
+                        <path id="path2" d="M250,320 L160,390" stroke="#cbd5e1" stroke-width="1.5" stroke-dasharray="4"
+                            fill="none" />
+                        <path id="path3" d="M250,320 L340,390" stroke="#cbd5e1" stroke-width="1.5" stroke-dasharray="4"
+                            fill="none" />
+                        <circle r="3" fill="#FF8C00">
+                            <animateMotion dur="2s" repeatCount="indefinite">
+                                <mpath href="#path1" />
+                            </animateMotion>
+                        </circle>
+                        <circle r="3" fill="#1B3A57">
+                            <animateMotion dur="2.5s" repeatCount="indefinite" begin="0.5s">
+                                <mpath href="#path2" />
+                            </animateMotion>
+                        </circle>
+                        <circle r="3" fill="#1B3A57">
+                            <animateMotion dur="3s" repeatCount="indefinite" begin="1s">
+                                <mpath href="#path3" />
+                            </animateMotion>
+                        </circle>
+                    </svg>
+                </div>
+            </div>
+
+            <div class="orange-byte-branding animate-in delay-3">
+                <p class="text-[9px] text-gray-400 uppercase tracking-widest mb-1">Lead Developer & Consultant</p>
+                <div style="display: flex; align-items: center; gap: 8px; justify-content: flex-end;">
+                    <p class="presenter-name">Orange Code BYTE</p>
+                    <i class="fas fa-check-circle text-blue-500 text-sm"></i>
+                </div>
+                <p style="font-size: 11px; color: #94a3b8; margin-top: 3px;">www.orangecodebyte.com</p>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

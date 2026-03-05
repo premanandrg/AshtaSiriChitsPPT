@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Reporting & Intelligence</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet" />
+    <style>
+        /* Base Body - Updated for Full Screen Presentation */
+        body { 
+            margin: 0; 
+            padding: 0; 
+            width: 100vw; 
+            min-height: 100vh; 
+            font-family: 'Roboto', sans-serif; 
+            background-color: #f0f4f8; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            overflow: hidden; /* Prevent body scroll on presentation */
+        }
+        
+        /* Container - Now set to 100vw and 100vh for Full Screen */
+        .slide-container { 
+            width: 100vw; 
+            height: 100vh; 
+            display: flex; 
+            flex-direction: column; 
+            background-color: #ffffff; 
+            position: relative; 
+            overflow: hidden; 
+        }
+        
+        /* Header Styling - Proportional sizing */
+        .header { 
+            height: 12vh; 
+            min-height: 80px; 
+            background-color: #1B3A57; 
+            padding: 0 5%; 
+            display: flex; 
+            align-items: center; 
+            justify-content: space-between; 
+            position: relative; 
+            z-index: 20; 
+            flex-shrink: 0; 
+        }
+        
+        .header-accent { 
+            position: absolute; 
+            bottom: 0; 
+            left: 0; 
+            width: 25%; 
+            height: 6px; 
+            background-color: #FF8C00; 
+        }
+        
+        .page-title { 
+            font-family: 'Montserrat', sans-serif; 
+            font-size: clamp(24px, 4vh, 36px); 
+            font-weight: 700; 
+            color: white; 
+        }
+        
+        .logo-container { 
+            display: flex; 
+            align-items: center; 
+            gap: 12px; 
+            color: white; 
+            opacity: 0.9; 
+        }
+
+        .logo-text { 
+            font-family: 'Montserrat', sans-serif; 
+            font-weight: 700; 
+            font-size: clamp(14px, 2vh, 18px); 
+        }
+
+        /* Main Content - Utilizes full remaining screen height */
+        .main-content { 
+            flex: 1; 
+            display: flex; 
+            flex-direction: row; 
+            padding: 4vh 5%; 
+            gap: 40px; 
+            position: relative; 
+            overflow: hidden;
+        }
+        
+        /* Sidebar scaling */
+        .stats-sidebar { 
+            width: 25%; 
+            min-width: 300px;
+            display: flex; 
+            flex-direction: column; 
+            gap: 2vh; 
+            z-index: 10; 
+        }
+
+        .stat-card { 
+            background: white; 
+            border: 1px solid #e2e8f0; 
+            border-radius: 16px; 
+            padding: 2.5vh 20px; 
+            display: flex; 
+            flex-direction: column; 
+            gap: 8px; 
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02); 
+            border-left: 5px solid #FF8C00; 
+        }
+
+        .stat-label { 
+            font-size: 11px; 
+            font-weight: 600; 
+            color: #64748b; 
+            text-transform: uppercase; 
+            letter-spacing: 0.5px; 
+        }
+
+        .stat-value { 
+            font-family: 'Montserrat', sans-serif; 
+            font-size: clamp(20px, 3vh, 32px); 
+            font-weight: 800; 
+            color: #1B3A57; 
+        }
+
+        .stat-trend { font-size: 12px; color: #16a34a; display: flex; align-items: center; gap: 4px; }
+
+        /* Dashboard Area - Adaptive scaling */
+        .dashboard-area { 
+            flex: 1; 
+            background-color: #f8fafc; 
+            border: 1px solid #e2e8f0; 
+            border-radius: 24px; 
+            padding: 3vh; 
+            position: relative; 
+            display: flex; 
+            flex-direction: column; 
+            gap: 3vh; 
+            box-shadow: inset 0 2px 10px rgba(0,0,0,0.05); 
+        }
+
+        .chart-row { 
+            display: flex; 
+            flex-direction: row; 
+            gap: 20px; 
+            flex: 1.2; 
+        }
+
+        .chart-box { 
+            background: white; 
+            border-radius: 12px; 
+            border: 1px solid #e2e8f0; 
+            flex: 1; 
+            padding: 2vh; 
+            display: flex; 
+            flex-direction: column; 
+        }
+
+        .chart-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5vh; }
+        .chart-title { font-size: 14px; font-weight: 700; color: #1B3A57; }
+
+        /* Bars now scale with screen height */
+        .bar-container { 
+            display: flex; 
+            align-items: flex-end; 
+            gap: 10px; 
+            flex: 1;
+            padding-bottom: 10px; 
+            border-bottom: 1px solid #e2e8f0; 
+            justify-content: space-around; 
+        }
+        .bar { width: 100%; max-width: 35px; border-radius: 4px 4px 0 0; background: #FF8C00; transition: height 1s ease; }
+        
+        .feature-tag { background: #eff6ff; color: #2563eb; font-size: 10px; padding: 4px 8px; border-radius: 20px; font-weight: 700; }
+
+        /* Footer positioning */
+        .footer-note { 
+            height: 5vh;
+            padding: 0 5%;
+            font-size: 11px; 
+            color: #94a3b8; 
+            display: flex; 
+            align-items: center; 
+            gap: 8px;
+            background: #fff;
+        }
+
+        /* Animations */
+        @keyframes slideIn { from { opacity: 0; transform: translateX(-30px); } to { opacity: 1; transform: translateX(0); } }
+        .anim-fade { animation: slideIn 0.6s ease-out forwards; }
+
+        /* Mobile Adjustments */
+        @media (max-width: 1023px) {
+            body { overflow-y: auto; height: auto; }
+            .slide-container { height: auto; width: 100%; }
+            .main-content { flex-direction: column; overflow: visible; }
+            .stats-sidebar { width: 100%; }
+            .chart-row { flex-direction: column; }
+            .bar-container { height: 150px; }
+            .dashboard-area { height: auto; }
+        }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <div class="header">
+            <h1 class="page-title">Reporting & Intelligence</h1>
+            <div class="header-accent"></div>
+            <div class="logo-container">
+                <i class="fas fa-chart-pie text-orange-400 text-2xl"></i>
+                <span class="logo-text">Orange Code BYTE</span>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="stats-sidebar">
+                <div class="stat-card anim-fade" style="animation-delay: 0.1s;">
+                    <span class="stat-label">Collection Efficiency</span>
+                    <span class="stat-value">98.4%</span>
+                    <span class="stat-trend"><i class="fas fa-caret-up"></i> 2.1% from last month</span>
+                </div>
+                <div class="stat-card anim-fade" style="animation-delay: 0.2s; border-left-color: #3b82f6;">
+                    <span class="stat-label">Active Chit Value</span>
+                    <span class="stat-value">₹ 4.2 Cr</span>
+                    <span class="stat-trend"><i class="fas fa-caret-up"></i> 12 new groups added</span>
+                </div>
+                <div class="stat-card anim-fade" style="animation-delay: 0.3s; border-left-color: #10b981;">
+                    <span class="stat-label">Member Growth</span>
+                    <span class="stat-value">1,240</span>
+                    <span class="stat-trend"><i class="fas fa-caret-up"></i> 15% YoY Growth</span>
+                </div>
+                <p style="font-size: 14px; color: #64748b; line-height: 1.6; padding: 10px 5px;">
+                    Gain actionable insights with automated reporting that tracks every auction, payment, and dividend in real-time.
+                </p>
+            </div>
+
+            <div class="dashboard-area anim-fade" style="animation-delay: 0.4s;">
+                <div class="chart-header">
+                    <span class="chart-title" style="font-size: 18px;">Executive Overview</span>
+                    <div style="display: flex; gap: 5px;">
+                        <span class="feature-tag">Daily Sync</span>
+                        <span class="feature-tag">PDF Export</span>
+                    </div>
+                </div>
+
+                <div class="chart-row">
+                    <div class="chart-box">
+                        <div class="chart-header">
+                            <span class="chart-title">Collection vs Targets</span>
+                            <i class="fas fa-ellipsis-v text-gray-300"></i>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar" style="height: 60%; background: #cbd5e1;"></div>
+                            <div class="bar" style="height: 85%;"></div>
+                            <div class="bar" style="height: 70%; background: #cbd5e1;"></div>
+                            <div class="bar" style="height: 95%;"></div>
+                            <div class="bar" style="height: 40%; background: #cbd5e1;"></div>
+                            <div class="bar" style="height: 90%;"></div>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; margin-top: 10px; font-size: 10px; color: #94a3b8; font-weight: 700;">
+                            <span>MAY</span><span>JUN</span><span>JUL</span><span>AUG</span><span>SEP</span><span>OCT</span>
+                        </div>
+                    </div>
+                    
+                    <div class="chart-box">
+                        <div class="chart-header">
+                            <span class="chart-title">Outstanding Dues</span>
+                            <span style="color: #ef4444; font-size: 12px; font-weight: 700;">Action Required</span>
+                        </div>
+                        <div style="display: flex; flex-direction: column; gap: 12px; flex: 1; justify-content: center;">
+                            <div style="display: flex; justify-content: space-between; font-size: 12px;">
+                                <span style="color: #64748b;">Group A-101</span>
+                                <span style="font-weight: 700;">₹ 45,000</span>
+                            </div>
+                            <div style="width: 100%; height: 8px; background: #f1f5f9; border-radius: 4px; overflow: hidden;">
+                                <div style="width: 75%; height: 100%; background: #ef4444;"></div>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; font-size: 12px;">
+                                <span style="color: #64748b;">Group B-202</span>
+                                <span style="font-weight: 700;">₹ 12,500</span>
+                            </div>
+                            <div style="width: 100%; height: 8px; background: #f1f5f9; border-radius: 4px; overflow: hidden;">
+                                <div style="width: 30%; height: 100%; background: #f59e0b;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chart-box" style="flex: 0.6;">
+                    <span class="chart-title" style="margin-bottom: 10px;">Recent System Alerts</span>
+                    <div style="font-size: 12px; color: #475569; display: flex; flex-direction: column; gap: 8px;">
+                        <div style="display: flex; gap: 10px; align-items: flex-start;">
+                            <i class="fas fa-circle text-green-500" style="font-size: 8px; margin-top: 4px;"></i>
+                            <span>All auction results for Group C-303 published successfully.</span>
+                        </div>
+                        <div style="display: flex; gap: 10px; align-items: flex-start;">
+                            <i class="fas fa-circle text-blue-500" style="font-size: 8px; margin-top: 4px;"></i>
+                            <span>Daily backup completed at 02:00 AM. 10.4 GB secured.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-note">
+            <i class="fas fa-info-circle"></i>
+            <span>Real-time data visualization powered by Orange Code BYTE</span>
+        </div>
+    </div>
+</body>
+</html>

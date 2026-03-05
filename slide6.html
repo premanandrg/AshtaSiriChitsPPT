@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Ease of Use</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Roboto:wght@300;400;500;700&display=swap"
+        rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+    
+    <style>
+        /* --- Presentation Core --- */
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden; /* Presentation Lock */
+            font-family: 'Roboto', sans-serif;
+            background-color: #1B3A57; /* Backdrop color */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .slide-container {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background-color: #ffffff;
+            position: relative;
+        }
+
+        /* --- Animations --- */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideInLeft {
+            from { transform: translateX(-100%); }
+            to { transform: translateX(0); }
+        }
+
+        .anim-header { animation: fadeInUp 0.6s ease-out forwards; }
+        .anim-card { opacity: 0; animation: fadeInUp 0.5s ease-out forwards; }
+
+        /* Header Section Scaling */
+         /* Header Scaling */
+        .header {
+            height: 12vh; /* Relative to viewport height */
+            min-height: 80px;
+            background-color: #1B3A57;
+            padding: 0 5vw;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+            z-index: 10;
+        }
+
+
+        .header-accent {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 43%;
+            height: 6px;
+            background-color: #FF8C00;
+            animation: slideInLeft 1s ease-out forwards;
+        }
+
+        .page-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: clamp(24px, 4.5vh, 42px);
+            font-weight: 800;
+            color: white;
+            margin: 0;
+        }
+
+        /* Content Area Scaling */
+        .content-area {
+            flex: 1;
+            padding: 4vh 5vw;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .intro-text {
+            font-size: clamp(16px, 2.2vh, 22px);
+            color: #4b5563;
+            max-width: 1000px;
+            margin-bottom: 3vh;
+            line-height: 1.5;
+            border-left: 5px solid #FF8C00;
+            padding-left: 25px;
+        }
+
+        /* Responsive Grid Scaling */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: repeat(2, 1fr);
+            gap: 2.5vh 2vw;
+            flex: 1;
+            margin-bottom: 2vh;
+        }
+
+        .feature-card {
+            background-color: white;
+            border-radius: 16px;
+            padding: 3vh 2vw;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+            border: 1px solid #eef2f6;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(27, 58, 87, 0.08);
+            border-color: #FF8C00;
+        }
+
+        .icon-circle {
+            width: 6vh;
+            height: 6vh;
+            min-width: 50px;
+            min-height: 50px;
+            border-radius: 14px;
+            background-color: rgba(255, 140, 0, 0.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 2vh;
+        }
+
+        .icon-circle i { font-size: 2.5vh; color: #FF8C00; }
+
+        .card-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: clamp(16px, 2.4vh, 24px);
+            font-weight: 700;
+            color: #1B3A57;
+            margin-bottom: 1vh;
+        }
+
+        .card-desc {
+            font-size: clamp(13px, 1.7vh, 16px);
+            color: #6b7280;
+            line-height: 1.6;
+        }
+
+        .number-watermark {
+            position: absolute;
+            top: 1vh;
+            right: 1.5vw;
+            font-size: 6vh;
+            font-weight: 800;
+            color: #f8fafc;
+            z-index: 0;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .bg-pattern {
+            position: absolute;
+            bottom: -50px;
+            right: -50px;
+            width: 300px;
+            height: 300px;
+            background-image: radial-gradient(#e5e7eb 1.5px, transparent 1.5px);
+            background-size: 30px 30px;
+            opacity: 0.4;
+            z-index: -1;
+        }
+
+        .footer {
+            height: 4vh;
+            font-size: 11px;
+            color: #9ca3af;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+
+        /* Mobile Adjustments */
+        @media (max-width: 1023px) {
+            body, html { overflow-y: auto; height: auto; }
+            .slide-container { height: auto; }
+            .features-grid { grid-template-columns: 1fr; grid-template-rows: auto; }
+            .header { height: auto; padding: 30px; }
+            .content-area { padding: 40px 20px; }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="slide-container">
+        <div class="header">
+            <h1 class="page-title">Ease of Use</h1>
+            <div class="header-accent"></div>
+            <div class="flex items-center gap-4">
+                <img src="small_logo_trans.png" alt="Logo" class="h-10 w-auto">
+                <span style="font-family: 'Montserrat'; color: white; font-weight: 700; font-size: 18px;" class="hidden md:inline">
+                    Orange Code <span style="color:#FF8C00">BYTE</span>
+                </span>
+            </div>
+        </div>
+
+        <div class="content-area">
+            <div class="intro-text anim-header" style="animation-delay: 0.2s;">
+                Our platform uses a user-centric design to minimize operational friction and maximize staff efficiency.
+            </div>
+
+            <div class="features-grid">
+                <div class="feature-card anim-card" style="animation-delay: 0.3s;">
+                    <div class="number-watermark">01</div>
+                    <div style="position: relative; z-index: 1;">
+                        <div class="icon-circle"><i class="fas fa-fingerprint"></i></div>
+                        <h3 class="card-title">Simple Secure Login</h3>
+                        <p class="card-desc">Single-click access with role-based dashboards ensures users see exactly what they need.</p>
+                    </div>
+                </div>
+
+                <div class="feature-card anim-card" style="animation-delay: 0.4s;">
+                    <div class="number-watermark">02</div>
+                    <div style="position: relative; z-index: 1;">
+                        <div class="icon-circle" style="background-color: rgba(27, 58, 87, 0.1);"><i class="fas fa-desktop" style="color: #1B3A57;"></i></div>
+                        <h3 class="card-title">Clean Interface</h3>
+                        <p class="card-desc">Modern, intuitive UI design with clear labels and logical workflows reduces cognitive load.</p>
+                    </div>
+                </div>
+
+                <div class="feature-card anim-card" style="animation-delay: 0.5s;">
+                    <div class="number-watermark">03</div>
+                    <div style="position: relative; z-index: 1;">
+                        <div class="icon-circle"><i class="fas fa-bolt"></i></div>
+                        <h3 class="card-title">Fast Navigation</h3>
+                        <p class="card-desc">Optimized for speed with quick-action buttons for high-volume financial tasks.</p>
+                    </div>
+                </div>
+
+                <div class="feature-card anim-card" style="animation-delay: 0.6s;">
+                    <div class="number-watermark">04</div>
+                    <div style="position: relative; z-index: 1;">
+                        <div class="icon-circle"><i class="fas fa-graduation-cap"></i></div>
+                        <h3 class="card-title">Minimal Training</h3>
+                        <p class="card-desc">Self-explanatory workflows allow new employees to be productive on day one.</p>
+                    </div>
+                </div>
+
+                <div class="feature-card anim-card" style="animation-delay: 0.7s;">
+                    <div class="number-watermark">05</div>
+                    <div style="position: relative; z-index: 1;">
+                        <div class="icon-circle" style="background-color: rgba(27, 58, 87, 0.1);"><i class="fas fa-wifi" style="color: #1B3A57;"></i></div>
+                        <h3 class="card-title">Offline Field Usage</h3>
+                        <p class="card-desc">Record payments in the field without internet; data syncs automatically when online.</p>
+                    </div>
+                </div>
+
+                <div class="feature-card anim-card" style="background-color: #1B3A57; border: none; animation-delay: 0.8s;">
+                    <div style="position: relative; z-index: 1; text-align: center;">
+                        <i class="fas fa-check-circle" style="color: #FF8C00; font-size: 4vh; margin-bottom: 2vh;"></i>
+                        <h3 class="card-title" style="color: white;">User Adoption</h3>
+                        <p class="card-desc" style="color: #d1d5db;">Proven high adoption rates across various technical skill levels.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-pattern"></div>
+            
+            <div class="footer anim-header" style="animation-delay: 1s;">
+                <i class="fas fa-mouse-pointer" style="color: #FF8C00;"></i>
+                <span>Optimized for desktop and mobile interactions &copy; 2026 Orange Code BYTE</span>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

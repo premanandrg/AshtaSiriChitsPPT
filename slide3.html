@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
+    <title>Current Business Challenges</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+
+    <style>
+        :root {
+            --primary-blue: #1B3A57;
+            --accent-orange: #FF8C00;
+        }
+
+        /* Full Screen Reset */
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100vh;
+            font-family: 'Roboto', sans-serif;
+            background-color: #ffffff;
+            overflow: hidden; /* Desktop remains fixed */
+        }
+
+        .slide-container {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background-color: #ffffff;
+            position: relative;
+        }
+
+        @media (max-width: 1024px) {
+            body, html { height: auto; overflow-y: auto; }
+            .slide-container { height: auto; min-height: 100vh; }
+        }
+
+        /* --- Animations --- */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes slideInLeft {
+            from { transform: translateX(-100%); }
+            to { transform: translateX(0); }
+        }
+
+        .anim-header { animation: fadeInUp 0.6s ease-out forwards; }
+        .anim-card { opacity: 0; animation: fadeInUp 0.5s ease-out forwards; }
+
+        /* --- Header Section --- */
+        .header-bar {
+            position: relative;
+            width: 100%;
+            height: 15vh; /* Responsive height */
+            min-height: 80px;
+            background-color: var(--primary-blue);
+            display: flex;
+            align-items: center;
+            padding: 0 5%;
+            z-index: 10;
+        }
+
+        .header-accent {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 21%;
+            height: 6px;
+            background-color: var(--accent-orange);
+            animation: slideInLeft 1s ease-out forwards;
+        }
+
+        .page-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: clamp(20px, 4vw, 42px);
+            font-weight: 800;
+            color: white;
+        }
+
+        /* --- Content Area --- */
+        .content-area {
+            flex: 1;
+            padding: 3vh 5%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between; /* Spreads content from top to bottom */
+        }
+
+        .intro-text {
+            font-size: clamp(14px, 1.5vw, 18px);
+            color: #4b5563;
+            max-width: 1000px;
+            margin-bottom: 2vh;
+            line-height: 1.5;
+            border-left: 4px solid var(--accent-orange);
+            padding-left: 20px;
+        }
+
+        /* --- Grid Logic --- */
+        .challenges-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+            flex: 1;
+            margin-bottom: 2vh;
+        }
+
+        /* @media (min-width: 640px) { grid-template-columns: repeat(2, 1fr); } */
+        @media (min-width: 1024px) { 
+            .challenges-grid {
+                grid-template-columns: repeat(3, 1fr);
+                grid-template-rows: repeat(2, 1fr);
+                gap: 20px;
+            } 
+        }
+
+        /* --- Cards --- */
+        .challenge-card {
+            background-color: white;
+            border-radius: 12px;
+            padding: 2vh 20px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e5e7eb;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .challenge-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-orange);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        .icon-circle {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            background-color: rgba(255, 140, 0, 0.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .icon-circle i { color: var(--accent-orange); font-size: 18px; }
+
+        .card-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: clamp(14px, 1.2vw, 18px);
+            font-weight: 700;
+            color: var(--primary-blue);
+            margin-bottom: 5px;
+        }
+
+        .card-desc {
+            font-size: clamp(11px, 1vw, 13.5px);
+            color: #6b7280;
+            line-height: 1.4;
+        }
+
+        .impact-card {
+            background: linear-gradient(135deg, #1B3A57 0%, #2a5275 100%);
+            color: white;
+            text-align: center;
+            align-items: center;
+        }
+
+        .number-watermark {
+            position: absolute;
+            top: 5px;
+            right: 15px;
+            font-size: 40px;
+            font-weight: 800;
+            color: #f3f4f6;
+            font-family: 'Montserrat', sans-serif;
+            opacity: 0.5;
+            z-index: 0;
+        }
+
+        .footer {
+            height: 4vh;
+            font-size: 10px;
+            color: #9ca3af;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-transform: uppercase;
+            border-top: 1px solid #f3f4f6;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="slide-container">
+        <div class="header-bar anim-header">
+            <h1 class="page-title">Current Business Challenges</h1>
+            <div class="header-accent"></div>
+            <div class="logo-small ml-auto flex items-center gap-3">
+                <img src="small_logo_trans.png" alt="Logo" class="w-8 h-8 object-contain">
+                <span class="text-white font-bold text-sm hidden sm:inline">Orange Code <span style="color:#FF8C00">BYTE</span></span>
+            </div>
+        </div>
+
+        <div class="content-area">
+            <div class="intro-text anim-header" style="animation-delay: 0.2s;">
+                Traditional chit fund operations face significant bottlenecks that hinder growth, reduce transparency, and increase operational risks.
+            </div>
+
+            <div class="challenges-grid">
+                <div class="challenge-card anim-card" style="animation-delay: 0.3s;">
+                    <div class="number-watermark">01</div>
+                    <div class="relative z-10">
+                        <div class="icon-circle"><i class="fas fa-file-excel"></i></div>
+                        <h3 class="card-title">Manual Excel Tracking</h3>
+                        <p class="card-desc">Reliance on spreadsheets leads to fragmentation, version control issues, and lack of real-time insights.</p>
+                    </div>
+                </div>
+
+                <div class="challenge-card anim-card" style="animation-delay: 0.4s;">
+                    <div class="number-watermark">02</div>
+                    <div class="relative z-10">
+                        <div class="icon-circle" style="background-color: rgba(220, 38, 38, 0.1);">
+                            <i class="fas fa-exclamation-triangle" style="color: #dc2626;"></i>
+                        </div>
+                        <h3 class="card-title">Calculation Errors</h3>
+                        <p class="card-desc">Interest and dividend calculations are prone to human error, causing financial discrepancies.</p>
+                    </div>
+                </div>
+
+                <div class="challenge-card anim-card" style="animation-delay: 0.5s;">
+                    <div class="number-watermark">03</div>
+                    <div class="relative z-10">
+                        <div class="icon-circle"><i class="fas fa-route"></i></div>
+                        <h3 class="card-title">Collection Tracking</h3>
+                        <p class="card-desc">Difficulty in tracking field agents in real-time results in delayed deposits and fraud risks.</p>
+                    </div>
+                </div>
+
+                <div class="challenge-card anim-card" style="animation-delay: 0.6s;">
+                    <div class="number-watermark">04</div>
+                    <div class="relative z-10">
+                        <div class="icon-circle"><i class="fas fa-eye-slash"></i></div>
+                        <h3 class="card-title">Limited Transparency</h3>
+                        <p class="card-desc">Members lack visibility into chit status and auction details, leading to lower customer trust.</p>
+                    </div>
+                </div>
+
+                <div class="challenge-card anim-card" style="animation-delay: 0.7s;">
+                    <div class="number-watermark">05</div>
+                    <div class="relative z-10">
+                        <div class="icon-circle"><i class="fas fa-network-wired"></i></div>
+                        <h3 class="card-title">Multi-Branch Complexity</h3>
+                        <p class="card-desc">Managing branches without a centralized system creates synchronization challenges and overhead.</p>
+                    </div>
+                </div>
+
+                <div class="challenge-card impact-card anim-card" style="animation-delay: 0.8s;">
+                    <i class="fas fa-chart-line" style="color: #FF8C00; font-size: 28px; margin-bottom: 10px;"></i>
+                    <h3 class="card-title" style="color: white;">Operational Impact</h3>
+                    <p class="card-desc" style="color: #d1d5db;">Stagnant growth, high operational costs, and risk of financial leakage.</p>
+                </div>
+            </div>
+
+            <div class="footer anim-header" style="animation-delay: 1s;">
+                <i class="fas fa-shield-alt" style="color: #FF8C00;"></i>
+                <span>Confidential Business Assessment &copy; 2026 Orange Code BYTE</span>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
