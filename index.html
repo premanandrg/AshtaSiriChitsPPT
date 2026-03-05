@@ -7,6 +7,14 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js/dist/reveal.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js/dist/theme/black.css">
     
+    <script>
+        var password = prompt("Please enter the Access Code to view the proposal:");
+        if (password != "ASHTA2026") {
+            alert("Incorrect code. Access Denied.");
+            window.location.href = "https://orangecodebyte.com";
+        }
+    </script>
+    
     <style>
         /* Ensures the background iframe fills the screen properly on mobile */
         .reveal .backgrounds {
