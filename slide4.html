@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8" />
-    <meta content="width=1280, height=720, initial-scale=1.0" name="viewport" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <title>Proposed Digital Solution</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet" />
@@ -14,111 +14,126 @@
             --accent-orange: #FF8C00;
         }
 
-        /* Full Screen Reset */
+        /* Base Styles */
         body, html {
             margin: 0;
             padding: 0;
             width: 100%;
-            height: 100vh;
+            min-height: 100vh;
             font-family: 'Roboto', sans-serif;
             background-color: #ffffff;
-            overflow: hidden; /* Desktop remains fixed */
+        }
+
+        /* Desktop: Fixed Height & Hidden Scroll */
+        @media (min-width: 1024px) {
+            body, html { height: 100vh; overflow: hidden; }
+            .slide-container { height: 100vh; }
         }
 
         .slide-container {
             width: 100%;
-            height: 100vh;
             display: flex;
             flex-direction: column;
             background-color: #ffffff;
             position: relative;
         }
+
         /* --- Animations --- */
         @keyframes popIn {
             0% { opacity: 0; transform: scale(0.8); }
             100% { opacity: 1; transform: scale(1); }
         }
-
         @keyframes slideInRight {
             from { opacity: 0; transform: translateX(30px); }
             to { opacity: 1; transform: translateX(0); }
         }
-
-        @keyframes pulseIn {
-            0% { transform: translate(-50%, -50%) scale(0.8); opacity: 0; }
-            100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
-        }
-
         .anim-pop { animation: popIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; opacity: 0; }
         .anim-hero { animation: slideInRight 0.8s ease-out forwards; }
-        .anim-hub { animation: pulseIn 0.6s ease-out forwards; }
 
         /* Header Bar */
         .header-bar {
-            width: 100%; height: 100px;
+            width: 100%; height: 80px;
             background-color: #1B3A57;
             display: flex; align-items: center;
-            padding: 0 60px; position: relative;
+            padding: 0 5%; position: relative;
             z-index: 10;
         }
 
         .header-accent { position: absolute; bottom: 0; left: 0; width: 29%; height: 5px; background-color: #FF8C00; }
+        .page-title { font-family: 'Montserrat', sans-serif; font-size: clamp(20px, 4vw, 36px); font-weight: 800; color: white; margin: 0; }
 
-        .page-title { font-family: 'Montserrat', sans-serif; font-size: 36px; font-weight: 800; color: white; margin: 0; }
+        /* Main Content Wrapper */
+        .content-wrapper { 
+            flex: 1; 
+            display: flex; 
+            flex-direction: column; /* Mobile first */
+            padding: 30px 5%; 
+            gap: 30px; 
+            position: relative; 
+        }
 
-        .logo-container { margin-left: auto; display: flex; align-items: center; gap: 10px; }
+        /* Desktop Layout Override */
+        @media (min-width: 1024px) {
+            .content-wrapper { flex-direction: row; padding: 40px 60px; gap: 50px; }
+            .hero-section { width: 35%; }
+            .features-grid { width: 65%; }
+        }
 
-        /* Main Content */
-        .content-wrapper { flex: 1; display: flex; padding: 40px 60px; gap: 50px; position: relative; }
-
-        .hero-section { width: 35%; display: flex; flex-direction: column; justify-content: center; z-index: 5; }
-
-        .hero-headline { font-family: 'Montserrat', sans-serif; font-size: 42px; font-weight: 800; color: #1B3A57; line-height: 1.1; margin-bottom: 20px; }
-
-        .hero-subtext { font-size: 18px; color: #4b5563; line-height: 1.6; margin-bottom: 30px; border-left: 4px solid #FF8C00; padding-left: 20px; }
+        .hero-section { display: flex; flex-direction: column; justify-content: center; z-index: 5; }
+        .hero-headline { font-family: 'Montserrat', sans-serif; font-size: clamp(28px, 5vw, 42px); font-weight: 800; color: #1B3A57; line-height: 1.1; margin-bottom: 20px; }
+        .hero-subtext { font-size: 16px; color: #4b5563; line-height: 1.6; margin-bottom: 30px; border-left: 4px solid #FF8C00; padding-left: 20px; }
 
         .core-badge {
             display: inline-flex; align-items: center; background-color: #fff3e0;
             color: #e65100; padding: 8px 16px; border-radius: 20px;
-            font-weight: 700; font-size: 13px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 20px;
+            font-weight: 700; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 15px; width: fit-content;
         }
 
         /* Features Grid */
-        .features-grid { width: 65%; display: grid; grid-template-columns: repeat(2, 1fr); grid-template-rows: repeat(2, 1fr); gap: 20px; z-index: 5; position: relative; }
+        .features-grid { 
+            display: grid; 
+            grid-template-columns: 1fr; /* Mobile: 1 column */
+            gap: 20px; 
+            z-index: 5; 
+            position: relative; 
+        }
+
+        @media (min-width: 640px) {
+            .features-grid { grid-template-columns: repeat(2, 1fr); }
+        }
 
         .feature-card {
             background-color: white; border-radius: 16px; padding: 25px;
             box-shadow: 0 10px 30px rgba(27, 58, 87, 0.04); border: 1px solid #f3f4f6;
             display: flex; flex-direction: column; transition: all 0.3s ease;
         }
-        .feature-card:hover { transform: translateY(-5px); border-color: #FF8C00; box-shadow: 0 15px 40px rgba(255, 140, 0, 0.1); }
 
-        .card-icon-bg { width: 50px; height: 50px; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-bottom: 15px; font-size: 22px; }
-
+        .card-icon-bg { width: 45px; height: 45px; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-bottom: 15px; font-size: 20px; }
         .icon-blue { background-color: #e0f2fe; color: #0284c7; }
         .icon-orange { background-color: #fff7ed; color: #ea580c; }
         .icon-green { background-color: #ecfdf5; color: #059669; }
         .icon-purple { background-color: #f3e8ff; color: #7c3aed; }
 
-        .card-title { font-family: 'Montserrat', sans-serif; font-size: 19px; font-weight: 700; color: #1B3A57; margin-bottom: 8px; }
-        .card-desc { font-size: 13.5px; color: #6b7280; line-height: 1.5; }
+        .card-title { font-family: 'Montserrat', sans-serif; font-size: 18px; font-weight: 700; color: #1B3A57; margin-bottom: 8px; }
+        .card-desc { font-size: 13px; color: #6b7280; line-height: 1.5; }
 
-        /* Hub */
+        /* Central Hub Icon */
         .connection-lines {
-            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            width: 70px; height: 70px; background-color: #1B3A57; border-radius: 50%;
-            z-index: 20; display: flex; align-items: center; justify-content: center;
-            box-shadow: 0 0 0 10px white;
+            display: none; /* Hidden on mobile to save space */
+        }
+        @media (min-width: 1024px) {
+            .connection-lines {
+                display: flex; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+                width: 70px; height: 70px; background-color: #1B3A57; border-radius: 50%;
+                z-index: 20; align-items: center; justify-content: center;
+                box-shadow: 0 0 0 10px white;
+            }
         }
 
         .grid-pattern {
-            position: absolute; top: 0; right: 0; width: 60%; height: 100%;
+            position: absolute; top: 0; right: 0; width: 100%; height: 100%;
             background-image: radial-gradient(#cbd5e1 1px, transparent 1px);
-            background-size: 30px 30px; opacity: 0.3; z-index: 0;
-        }
-
-        @media (max-width: 1280px), (max-height: 720px) {
-            .slide-container { transform: scale(calc(min(100vw / 1280, 100vh / 720) * 0.98)); }
+            background-size: 30px 30px; opacity: 0.2; z-index: 0;
         }
     </style>
 </head>
@@ -126,14 +141,11 @@
 <body>
     <div class="slide-container">
         <div class="header-bar">
-            <h1 class="page-title">Proposed Digital Solution</h1>
-            
-
-
-             <div class="header-accent"></div>
+            <h1 class="page-title">Proposed Solution</h1>
+            <div class="header-accent"></div>
             <div class="logo-small ml-auto flex items-center gap-3">
-                <img src="small_logo_trans.png" alt="Logo" class="w-8 h-8 object-contain">
-                <span class="text-white font-bold text-sm hidden sm:inline">Orange Code <span style="color:#FF8C00">BYTE</span></span>
+                <img src="small_logo_trans.png" alt="Logo" class="w-6 h-6 sm:w-8 sm:h-8 object-contain">
+                <span class="text-white font-bold text-xs sm:text-sm hidden xs:inline">Orange Code <span style="color:#FF8C00">BYTE</span></span>
             </div>
         </div>
 
@@ -148,31 +160,28 @@
                 <p class="hero-subtext">
                     A unified, scalable digital platform designed to automate core financial processes and bridge the gap between branches and members.
                 </p>
-                <div class="space-y-4">
+                <div class="space-y-3 sm:space-y-4">
                     <div class="flex items-center">
-                       <i class="fas fa-check-circle text-green-500 mr-3 text-xl"></i>
-                        <span class="text-gray-700 font-bold">100% Paperless Operations</span>
+                       <i class="fas fa-check-circle text-green-500 mr-3 text-lg"></i>
+                        <span class="text-gray-700 font-bold text-sm sm:text-base">100% Paperless Operations</span>
                     </div>
                     <div class="flex items-center">
-                        <i class="fas fa-check-circle text-green-500 mr-3 text-xl"></i>
-                        <span class="text-gray-700 font-bold">Real-time Data Sync</span>
+                        <i class="fas fa-check-circle text-green-500 mr-3 text-lg"></i>
+                        <span class="text-gray-700 font-bold text-sm sm:text-base">Real-time Data Sync</span>
                     </div>
                     <div class="flex items-center">
-                       <i class="fas fa-check-circle text-green-500 mr-3 text-xl"></i>
-                        <span class="text-gray-700 font-bold">Bank-Grade Security</span>
+                       <i class="fas fa-check-circle text-green-500 mr-3 text-lg"></i>
+                        <span class="text-gray-700 font-bold text-sm sm:text-base">Bank-Grade Security</span>
                     </div>
                 </div>
             </div>
 
             <div class="features-grid">
-                   <div class="connection-lines">
+                <div class="connection-lines">
                     <i class="fas fa-infinity text-white text-3xl"></i>
                 </div>
-                <!-- <div class="connection-lines anim-hub">
-                    <i class="fas fa-network-wired text-orange-500 text-2xl"></i>
-                </div> -->
 
-                <div class="feature-card anim-pop" style="animation-delay: 0.4s;">
+                <div class="feature-card anim-pop" style="animation-delay: 0.2s;">
                     <div class="card-icon-bg icon-purple">
                         <i class="fas fa-cogs"></i>
                     </div>
@@ -180,7 +189,7 @@
                     <p class="card-desc">Automate complex auction calculations, dividend distribution, and recurring billing cycles instantly.</p>
                 </div>
 
-                <div class="feature-card anim-pop" style="animation-delay: 0.5s;">
+                <div class="feature-card anim-pop" style="animation-delay: 0.3s;">
                     <div class="card-icon-bg icon-blue">
                         <i class="fas fa-chart-pie"></i>
                     </div>
@@ -188,7 +197,7 @@
                     <p class="card-desc">Live dashboards for branch performance, collection targets, and financial MIS reports.</p>
                 </div>
 
-                <div class="feature-card anim-pop" style="animation-delay: 0.6s;">
+                <div class="feature-card anim-pop" style="animation-delay: 0.4s;">
                     <div class="card-icon-bg icon-orange">
                         <i class="fas fa-mobile-alt"></i>
                     </div>
@@ -196,7 +205,7 @@
                     <p class="card-desc">Android app for field agents with offline capability, route tracking, and thermal printer support.</p>
                 </div>
 
-                <div class="feature-card anim-pop" style="animation-delay: 0.7s;">
+                <div class="feature-card anim-pop" style="animation-delay: 0.5s;">
                     <div class="card-icon-bg icon-green">
                         <i class="fas fa-users"></i>
                     </div>
@@ -207,5 +216,4 @@
         </div>
     </div>
 </body>
-
 </html>
